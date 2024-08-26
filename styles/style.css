@@ -1,0 +1,84 @@
+.navbar {
+    background-color: #f5f7fa;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+}
+.navbar-brand img {
+    height: 6.5vh;
+    margin-left: 15px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+.nav-link.active {
+    font-weight: bold !important; /* Make active link bold */
+    color: #022841 !important; /* Change text color for active link */
+}
+
+nav ul li a {
+    font-family: 'Infra', sans-serif;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+.nav-link {
+    color: #044464;
+    text-decoration: none;
+    transition: text-shadow 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Added transition for transform */
+}
+
+.nav-link:hover {
+    color: #022841;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2); /* Stronger shadow for more pop */
+    font-weight: bold; /* Make the text bolder */
+}
+body {
+    background-color: black;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    height: 70px;
+    margin: 0 10px;
+}
+
+.logo-container .ite-logo {
+    height: 90px;
+}
+
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    color:white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+#scrollToTopBtn:hover {
+    background-color: var(--bg-btn-hover);
+    transform: scale(1.1);
+}
