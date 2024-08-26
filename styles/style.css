@@ -1,6 +1,7 @@
 .navbar {
     background-color: #f5f7fa;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    height: 12.5vh;
 
 }
 .navbar-brand img {
@@ -15,12 +16,12 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin: 0 20px;
 }
 
 .nav-link.active {
-    font-weight: bold !important; /* Make active link bold */
-    color: #022841 !important; /* Change text color for active link */
+    font-weight: bold; /* Make active link bold */
+    color: #022841; /* Change text color for active link */
 }
 
 nav ul li a {
@@ -81,4 +82,47 @@ body {
 #scrollToTopBtn:hover {
     background-color: var(--bg-btn-hover);
     transform: scale(1.1);
+}
+
+.banner {
+    display: flex;
+    justify-content: center; /* Horizontally centers the content */
+    align-items: center; /* Vertically centers the content */
+    height: 87.5vh; /* Ensures the banner takes full height of the viewport */
+    background-color: white;
+    width: 100%;
+}
+
+.banner-content {
+    text-align: center;
+}
+
+.banner-content img {
+    height: 75vh;
+}
+
+.banner-text {
+    font-family: 'Infra', sans-serif;
+    color: #022841; /* Change text color to contrast with the background */
+    max-width: 100vh; /* Optional: Set a max-width for the text */
+    margin-left: 3rem;
+}
+.banner-text .title {
+    font-size: 4rem; /* Adjust the font size as needed */
+}
+
+.enroll-button {
+    background-color: #0066cc; /* Use a color that matches your site's theme */
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.enroll-button:hover {
+    background-color: #0052a3; /* Darker shade for hover effect */
 }
