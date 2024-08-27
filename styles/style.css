@@ -92,9 +92,18 @@ body {
     background-color: white;
     width: 100%;
 }
-
+.category-title {
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 75px;
+}
 .banner-content {
     text-align: center;
+}
+
+.banner.category {
+    height: 70vh;
+    background-color: black;
 }
 
 .banner-content img {
@@ -108,7 +117,15 @@ body {
     margin-left: 3rem;
 }
 .banner-text .title {
-    font-size: 4rem; /* Adjust the font size as needed */
+    font-size: 4rem;
+}
+
+.banner-description {
+    font-size: 17px;
+    color: #666;
+    margin-bottom: 15px;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 .enroll-button {
@@ -126,3 +143,64 @@ body {
 .enroll-button:hover {
     background-color: #0052a3; /* Darker shade for hover effect */
 }
+
+.container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.category-title h5,
+.category-title h2,
+.category-title h5.card-description {
+    margin-bottom: 20px; /* Adjust the value as needed */
+}
+
+
+.card {
+    width: 400px;
+    height: 250px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.card-icon {
+    font-size: 100px;
+    margin-bottom: 20px;
+}
+.card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #666;
+    margin-bottom: 15px;
+    flex-grow: 1;
+    overflow: hidden;
+    font-size: 20px;
+}
+.card-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 17px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+.card-courses {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+.online { background-color: #e6fff9; }
+.non-degree { background-color: #ffe6e6; }
+.off-campus { background-color: #e6e6ff; }
+.hybrid { background-color: #fff9e6; }
+
+.online .card-icon, .online .card-courses { color: #00c4a7; }
+.non-degree .card-icon, .non-degree .card-courses { color: #ff7676; }
+.off-campus .card-icon, .off-campus .card-courses { color: #7676ff; }
+.hybrid .card-icon, .hybrid .card-courses { color: #ffc107; }
