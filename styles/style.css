@@ -2,8 +2,18 @@
     background-color: #f5f7fa;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     height: 12.5vh;
-
+    transition: top 1s ease-in-out;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensures the navbar stays above other content */
 }
+
+.navbar.hidden {
+    top: -12.5vh; /* Adjust this to the height of your navbar */
+}
+
+
 .navbar-brand img {
     height: 6.5vh;
     margin-left: 15px;
@@ -150,6 +160,10 @@ body {
     justify-content: center;
 }
 
+.category, .courses {
+    margin-top: 10vh;
+}
+
 .category-title h5,
 .category-title h2,
 .category-title h5.card-description {
@@ -195,6 +209,32 @@ body {
     border-radius: 15px;
     font-size: 12px;
 }
+
+.card-link {
+    text-decoration: none; /* Removes default link underline */
+    color: inherit; /* Inherits color from the parent element */
+}
+
+.card-link:hover .card {
+    /* Add styles for when the card is hovered over */
+    /* Example: */
+    transform: scale(1.02); /* Slightly scales up the card */
+    transition: transform 0.3s ease;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+#courses {
+    scroll-margin-top: 20vh; /* Adjust this value to set how much space is above the target element */
+}
+#category {
+    scroll-margin-top: 20vh; /* Adjust this value to set how much space is above the target element */
+}
+
+
 .online { background-color: #e6fff9; }
 .non-degree { background-color: #ffe6e6; }
 .off-campus { background-color: #e6e6ff; }

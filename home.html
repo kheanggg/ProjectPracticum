@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
+    <header id="home">
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg" id="navbar-example2">
             <div class="container-fluid">
@@ -26,13 +26,16 @@
                 <div class="collapse navbar-collapse justify-content-end " id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#hello">HOME</a>
+                            <a class="nav-link active" href="#home">HOME</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="caesar_cipher.html">COURSES</a>
+                            <a class="nav-link" href="#category">CATEGORY</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="about.html">ABOUT US</a>
+                            <a class="nav-link" href="#courses">COURSES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about-us">ABOUT US</a>
                         </li>
                     </ul>
                 </div>
@@ -52,7 +55,8 @@
                 </div>
             </div>            
         </section>
-        <section>
+
+        <section class="category mt-0" id="category">
             <div class="category-title">
                 <h5>Category<h5>
                 <h2>Learning for Everyone.</h2>
@@ -86,29 +90,70 @@
             </div>         
         </section>
 
-        <div class="box" style="width:100%; height:25vh; background-color: #0066cc; margin-top: 200vh;" id="hello">
+        <section class="courses" id="courses">
+            <div class="category-title">
+                <h5>Courses<h5>
+                <h2>Learning for Everyone.</h2>
+                <h5 class="card-description">Lorem ipsum dolor consec tut elit adicing sed umod tempor</h5>
+            </div>
+            <div class="container">
+                <a class="card-link" href="./trigonometry.html">
+                    <div class="card mathematics">
+                        <div class="card-icon">➗</div>
+                        <div class="card-title">Trigonometry</div>
+                        <div class="card-description">Master the fundamentals of trigonometry with interactive visualization tools, making complex concepts easy to grasp and apply.</div>
+                        <div class="card-instructor">Mr. John Smith</div>
+                    </div>
+                </a>
+                <div class="card science">
+                    <div class="card-icon">🔬</div>
+                    <div class="card-title">Science</div>
+                    <div class="card-description">Explore physics, chemistry, biology, and the scientific method.</div>
+                    <div class="card-instructor">Dr. Jane Doe</div>
+                </div>
+                <div class="card english">
+                    <div class="card-icon">📖</div>
+                    <div class="card-title">English Literature</div>
+                    <div class="card-description">Study classic literature, improve writing skills, and analyze texts.</div>
+                    <div class="card-instructor">Ms. Emily Brown</div>
+                </div>
+                <div class="card history">
+                    <div class="card-icon">📜</div>
+                    <div class="card-title">History</div>
+                    <div class="card-description">Learn about world history, major events, and historical analysis.</div>
+                    <div class="card-instructor">Mr. Robert Wilson</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="box" style="width:100%; height:50vh; background-color: #0052a3; margin-top: 15vh;" id="about-us">
 
         </div>
         <button id="scrollToTopBtn" title="Go to top">↑</button>
     </main>
     <script>
-        // Get the button
-        let scrollToTopBtn = document.getElementById("scrollToTopBtn");
-
-        // Show the button when the user scrolls down 20px from the top of the document
-        window.onscroll = function () {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollToTopBtn.style.display = "block";
-            } else {
-                scrollToTopBtn.style.display = "none";
-            }
-        };
-
-        // When the user clicks on the button, scroll to the top of the document
-        scrollToTopBtn.addEventListener("click", function () {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.addEventListener('DOMContentLoaded', () => {
+            let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const navbar = document.querySelector('.navbar');
+            const scrollThreshold = 10; // Adjust this value for sensitivity
+    
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+                if (scrollTop < lastScrollTop - scrollThreshold) {
+                    // Scrolling up, show navbar
+                    navbar.classList.remove('hidden');
+                } else if (scrollTop > lastScrollTop + scrollThreshold) {
+                    // Scrolling down, hide navbar
+                    navbar.classList.add('hidden');
+                }
+    
+                lastScrollTop = scrollTop;
+            });
         });
     </script>
+    
+    
     
 </body>
 </html>
