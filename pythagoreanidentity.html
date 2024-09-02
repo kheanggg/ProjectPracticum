@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pythagorean Identity</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Include noUiSlider -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        .slider-container {
+            margin: 20px 0;
+        }
+        .slider-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .slider-container .slider {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Math Learning</div>
+            <div class="menu-item"><a href="unitcircle2d.html">Unit Circle 2D</a></div>
+            <div class="menu-item"><a href="cosinewave.html">Cosine Wave</a></div>
+            <div class="menu-item"><a href="cosinewave3d.html">Cosine Wave 3D</a></div>
+            <div class="menu-item"><a href="pythagoreanidentity.html">Pythagorean Identity</a></div>
+            <div class="menu-item"><a href="sineandcosinewavelaw.html">Sine and Cosine Law</a></div>
+            <div class="menu-item"><a href="sinewave.html">Sine Wave</a></div>
+            <div class="menu-item"><a href="sumanddifference.html">Sum and Difference</a></div>
+            <div class="menu-item"><a href="tangentwave.html">Tangent Wave</a></div>
+        </div>
+        <div class="main-content">
+            <h1>Pythagorean Identity</h1>
+            <div class="content-area">
+                <!-- This is where you can add your main content -->
+                <div id="unitCircle" style="width: 100%; height: 500px;"></div>
+                
+                <!-- Slider for angle theta -->
+                <div class="slider-container">
+                    <label>Angle (θ): <span id="thetaValue">0.0</span> radians</label>
+                    <div id="thetaSlider" class="slider"></div>
+                </div>
+                
+                <script>
+                    // Initial angle
+                    let theta = 0.0;
+
+                    // Generate data for the unit circle and the right triangle
+                    function generateData(theta) {
+                        // Points on the unit circle
+                        let circleX = [];
+                        let circleY = [];
+                        for (let i = 0; i <= 100; i++) {
+                            let angle = 2 * Math.PI * i / 100;
+                            circleX.push(Math.cos(angle));
+                            circleY.push(Math.sin(angle));
+                        }
+
+                        // Points for the right triangle
+                        let triangleX = [0, Math.cos(theta), Math.cos(theta), 0];
+                        let triangleY = [0, Math.sin(theta), 0, 0];
+
+                        // Annotations for sin(theta) and cos(theta)
+                        let annotations = [
+                            {
+                                x: Math.cos(theta) / 2,
+                                y: -0.1,
+                                text: `cos(θ) = ${Math.cos(theta).toFixed(2)}`,
+                                showarrow: false
+                            },
+                            {
+                                x: -0.1,
+                                y: Math.sin(theta) / 2,
+                                text: `sin(θ) = ${Math.sin(theta).toFixed(2)}`,
+                                showarrow: false
+                            }
+                        ];
+
+                        return { circleX, circleY, triangleX, triangleY, annotations };
+                    }
+
+                    // Initial plot
+                    let data = generateData(theta);
+                    Plotly.newPlot('unitCircle', [
+                        {
+                            x: data.circleX,
+                            y: data.circleY,
+                            mode: 'lines',
+                            name: 'Unit Circle'
+                        },
+                        {
+                            x: data.triangleX,
+                            y: data.triangleY,
+                            mode: 'lines+markers',
+                            name: 'Right Triangle',
+                            line: { color: 'red' },
+                            marker: { size: 8, color: 'red' }
+                        }
+                    ], {
+                        title: 'Pythagorean Identity: sin²(θ) + cos²(θ) = 1',
+                        xaxis: { title: 'x', range: [-1.5, 1.5], zeroline: true },
+                        yaxis: { title: 'y', range: [-1.5, 1.5], zeroline: true },
+                        annotations: data.annotations,
+                        showlegend: false
+                    });
+
+                    // Function to update the plot
+                    function updatePlot() {
+                        let data = generateData(theta);
+                        Plotly.restyle('unitCircle', {
+                            x: [data.circleX, data.triangleX],
+                            y: [data.circleY, data.triangleY]
+                        });
+                        Plotly.relayout('unitCircle', {
+                            annotations: data.annotations
+                        });
+                    }
+                    
+                    // Slider setup
+                    function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
+                        let slider = document.getElementById(sliderId);
+                        let valueDisplay = document.getElementById(valueId);
+                        
+                        noUiSlider.create(slider, {
+                            start: [initialValue],
+                            range: {
+                                'min': [min],
+                                'max': [max]
+                            },
+                            step: step
+                        });
+                        
+                        slider.noUiSlider.on('update', function (values, handle) {
+                            let value = parseFloat(values[handle]);
+                            valueDisplay.innerHTML = value.toFixed(2);
+                            onUpdate(value);
+                            updatePlot();
+                        });
+                    }
+                    
+                    // Setting up theta slider
+                    setupSlider('thetaSlider', 'thetaValue', theta, 0, 2 * Math.PI, 0.01, function (value) {
+                        theta = value;
+                    });
+                </script>
+                        </div>
+                    </div>
+    </div>
+</body>
+</html>

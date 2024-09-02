@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sine and Cosine Wave Law</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        #trianglePlot {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        .slider-container {
+            margin-bottom: 20px;
+        }
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .slider {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Math Learning</div>
+            <div class="menu-item"><a href="unitcircle2d.html">Unit Circle 2D</a></div>
+            <div class="menu-item"><a href="cosinewave.html">Cosine Wave</a></div>
+            <div class="menu-item"><a href="cosinewave3d.html">Cosine Wave 3D</a></div>
+            <div class="menu-item"><a href="pythagoreanidentity.html">Pythagorean Identity</a></div>
+            <div class="menu-item"><a href="sineandcosinewavelaw.html">Sine and Cosine Law</a></div>
+            <div class="menu-item"><a href="sinewave.html">Sine Wave</a></div>
+            <div class="menu-item"><a href="sumanddifference.html">Sum and Difference</a></div>
+            <div class="menu-item"><a href="tangentwave.html">Tangent Wave</a></div>
+        </div>
+        <div class="main-content">
+            <h1>Sine and Cosine Wave Law</h1>
+            <div class="content-area">
+                <!-- This is where you can add your main content -->
+                <!-- Plotly Plot for Triangle Visualization -->
+                <div id="trianglePlot"></div>
+                
+                <!-- Sliders for sides and angles -->
+                <div class="slider-container">
+                    <label for="sideASlider">Side A: <span id="sideAValue">4.0</span></label>
+                    <div id="sideASlider" class="slider"></div>
+                </div>
+                <div class="slider-container">
+                    <label for="sideBSlider">Side B: <span id="sideBValue">3.0</span></label>
+                    <div id="sideBSlider" class="slider"></div>
+                </div>
+                <div class="slider-container">
+                    <label for="sideCSlider">Side C: <span id="sideCValue">4.0</span></label>
+                    <div id="sideCSlider" class="slider"></div>
+                </div>
+                <div class="slider-container">
+                    <label for="angleASlider">Angle A: <span id="angleAValue">60.0</span>°</label>
+                    <div id="angleASlider" class="slider"></div>
+                </div>
+                <div class="slider-container">
+                    <label for="angleBSlider">Angle B: <span id="angleBValue">60.0</span>°</label>
+                    <div id="angleBSlider" class="slider"></div>
+                </div>
+                <div class="slider-container">
+                    <label for="angleCSlider">Angle C: <span id="angleCValue">60.0</span>°</label>
+                    <div id="angleCSlider" class="slider"></div>
+                </div>
+
+                <script>
+                    // Initial triangle dimensions and angles
+                    let sideA = 4.0;
+                    let sideB = 3.0;
+                    let sideC = 4.0;
+                    let angleA = 60.0;
+                    let angleB = 60.0;
+                    let angleC = 60.0;
+
+                    // Function to update triangle plot
+                    function updateTrianglePlot() {
+                        // Calculate coordinates of triangle vertices
+                        let xA = 0;
+                        let yA = 0;
+                        let xB = sideA;
+                        let yB = 0;
+
+                        // Using Law of Cosines to find coordinates of C
+                        let angleCRad = degToRad(angleC);
+                        let xC = (sideB * Math.cos(angleCRad)) + xA;
+                        let yC = (sideB * Math.sin(angleCRad)) + yA;
+
+                        // Update Plotly trace with new coordinates
+                        let trace = {
+                            type: 'scatter',
+                            x: [xA, xB, xC, xA],
+                            y: [yA, yB, yC, yA],
+                            mode: 'lines+markers',
+                            marker: { size: 10 },
+                            line: { color: 'blue' }
+                        };
+
+                        let layout = {
+                            title: 'Dynamic Triangle',
+                            xaxis: { range: [-1, Math.max(sideA, sideB, sideC) + 1], zeroline: false },
+                            yaxis: { range: [-1, sideC + 1], zeroline: false }
+                        };
+
+                        let data = [trace];
+
+                        // Plot the triangle using Plotly
+                        Plotly.newPlot('trianglePlot', data, layout);
+                    }
+
+                    // Function to convert degrees to radians
+                    function degToRad(degrees) {
+                        return degrees * Math.PI / 180;
+                    }
+
+                    // Function to convert radians to degrees
+                    function radToDeg(radians) {
+                        return radians * 180 / Math.PI;
+                    }
+
+                    // Setup sliders using noUiSlider
+                    function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
+                        let slider = document.getElementById(sliderId);
+                        let valueDisplay = document.getElementById(valueId);
+                        
+                        noUiSlider.create(slider, {
+                            start: initialValue,
+                            range: {
+                                'min': min,
+                                'max': max
+                            },
+                            step: step
+                        });
+
+                        slider.noUiSlider.on('update', function (values, handle) {
+                            let value = parseFloat(values[handle]);
+                            valueDisplay.innerHTML = value.toFixed(1);
+                            onUpdate(value);
+                            updateTrianglePlot(); // Update plot when slider value changes
+                        });
+                    }
+
+                    // Initialize sliders
+                    setupSlider('sideASlider', 'sideAValue', sideA.toString(), 1, 10, 0.1, function (value) {
+                        sideA = parseFloat(value);
+                        updateAnglesFromSides();
+                    });
+
+                    setupSlider('sideBSlider', 'sideBValue', sideB.toString(), 1, 10, 0.1, function (value) {
+                        sideB = parseFloat(value);
+                        updateAnglesFromSides();
+                    });
+
+                    setupSlider('sideCSlider', 'sideCValue', sideC.toString(), 1, 10, 0.1, function (value) {
+                        sideC = parseFloat(value);
+                        updateAnglesFromSides();
+                    });
+
+                    setupSlider('angleASlider', 'angleAValue', angleA.toString(), 1, 179, 1, function (value) {
+                        angleA = parseFloat(value);
+                        updateSidesFromAngles();
+                    });
+
+                    setupSlider('angleBSlider', 'angleBValue', angleB.toString(), 1, 179, 1, function (value) {
+                        angleB = parseFloat(value);
+                        updateSidesFromAngles();
+                    });
+
+                    setupSlider('angleCSlider', 'angleCValue', angleC.toString(), 1, 179, 1, function (value) {
+                        angleC = parseFloat(value);
+                        updateSidesFromAngles();
+                    });
+
+                    // Update sides based on angles using Law of Cosines
+                    function updateSidesFromAngles() {
+                        sideA = (sideC * Math.sin(degToRad(angleA))) / Math.sin(degToRad(angleC));
+                        sideB = (sideC * Math.sin(degToRad(angleB))) / Math.sin(degToRad(angleC));
+
+                        document.getElementById('sideAValue').textContent = sideA.toFixed(1);
+                        document.getElementById('sideBValue').textContent = sideB.toFixed(1);
+
+                        updateTrianglePlot();
+                    }
+
+                    // Update angles based on sides using Law of Cosines
+                    function updateAnglesFromSides() {
+                        angleA = radToDeg(Math.acos((sideB * sideB + sideC * sideC - sideA * sideA) / (2 * sideB * sideC)));
+                        angleB = radToDeg(Math.acos((sideA * sideA + sideC * sideC - sideB * sideB) / (2 * sideA * sideC)));
+                        angleC = radToDeg(Math.acos((sideA * sideA + sideB * sideB - sideC * sideC) / (2 * sideA * sideB)));
+
+                        document.getElementById('angleAValue').textContent = angleA.toFixed(1);
+                        document.getElementById('angleBValue').textContent = angleB.toFixed(1);
+                        document.getElementById('angleCValue').textContent = angleC.toFixed(1);
+
+                        updateTrianglePlot();
+                    }
+
+                    // Initialize plot
+                    updateTrianglePlot();
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

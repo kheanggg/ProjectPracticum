@@ -1,0 +1,84 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+.container {
+    display: flex;
+    height: 100%;
+}
+.sidebar {
+    width: 250px;
+    background: linear-gradient(to bottom, #3498db, #87CEEB);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.menu-item {
+    padding: 10px 0;
+    cursor: pointer;
+}
+.submenu {
+    padding-left: 20px;
+}
+.stats {
+    margin-top: 30px;
+}
+.stat-item {
+    margin-bottom: 20px;
+}
+.stat-label {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.progress-bar {
+    background-color: rgba(255,255,255,0.3);
+    height: 5px;
+    border-radius: 5px;
+}
+.progress {
+    background-color: #2ecc71;
+    height: 100%;
+    width: 25%; /* Adjust based on actual progress */
+}
+.upgrade-btn {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+}
+.content-area {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    flex-grow: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+a {
+    text-decoration: none;
+    color: black; /* Change this color as needed */
+}
+a:hover {
+    color: red; /* Change to desired hover color */
+    font-weight: bold; /* Example of changing the font weight */
+}
+a:visited {
+    color: white; /* Same color as the unvisited state */
+}

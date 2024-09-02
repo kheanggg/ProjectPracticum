@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosine Wave</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Include noUiSlider -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Math Learning</div>
+            <div class="menu-item"><a href="unitcircle2d.html">Unit Circle 2D</a></div>
+            <div class="menu-item"><a href="cosinewave.html">Cosine Wave</a></div>
+            <div class="menu-item"><a href="cosinewave3d.html">Cosine Wave 3D</a></div>
+            <div class="menu-item"><a href="pythagoreanidentity.html">Pythagorean Identity</a></div>
+            <div class="menu-item"><a href="sineandcosinewavelaw.html">Sine and Cosine Law</a></div>
+            <div class="menu-item"><a href="sinewave.html">Sine Wave</a></div>
+            <div class="menu-item"><a href="sumanddifference.html">Sum and Difference</a></div>
+            <div class="menu-item"><a href="tangentwave.html">Tangent Wave</a></div>
+        </div>
+        <div class="main-content">
+            <h1>Cosine Wave 2D</h1>
+            <div class="content-area">
+                <!-- This is where you can add your main content -->
+            <div id="cosineWave" style="width: 100%; height: 500px;"></div>
+            
+            <!-- Sliders for amplitude, frequency, and phase -->
+            <div>
+                <label>Amplitude: <span id="ampValue">1.0</span></label>
+                <div id="ampSlider" style="width: 80%;"></div>
+            </div>
+            <div>
+                <label>Frequency: <span id="freqValue">1.0</span></label>
+                <div id="freqSlider" style="width: 80%;"></div>
+            </div>
+            <div>
+                <label>Phase: <span id="phaseValue">0.0</span></label>
+                <div id="phaseSlider" style="width: 80%;"></div>
+            </div>
+            
+            <script>
+                // Initial parameters
+                let amplitude = 1.0;
+                let frequency = 1.0;
+                let phase = 0.0;
+                
+                // Generate initial cosine wave data with high resolution
+                function generateData(amplitude, frequency, phase) {
+                    let x = [];
+                    let y = [];
+                    for (let i = 0; i <= 1000; i++) {
+                        let t = i / 1000.0 * 2 * Math.PI;  // Higher resolution
+                        x.push(t);
+                        y.push(amplitude * Math.cos(frequency * t + phase)); // Using cosine function
+                    }
+                    return { x: x, y: y };
+                }
+                
+                // Initial plot
+                let data = generateData(amplitude, frequency, phase);
+                Plotly.newPlot('cosineWave', [{
+                    x: data.x,
+                    y: data.y,
+                    mode: 'lines',
+                    name: 'cosine wave'
+                }], {
+                    title: 'Cosine Wave',
+                    xaxis: { title: 'x', range: [0, 2 * Math.PI] },
+                    yaxis: { title: 'y = A cos(fx + φ)', range: [-2, 2] },
+                    grid: { rows: 1, columns: 1, pattern: 'independent' }
+                });
+
+                // Function to update the plot
+                function updatePlot() {
+                    let data = generateData(amplitude, frequency, phase);
+                    Plotly.restyle('cosineWave', {
+                        x: [data.x],
+                        y: [data.y]
+                    });
+                }
+                
+                // Sliders setup
+                function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
+                    let slider = document.getElementById(sliderId);
+                    let valueDisplay = document.getElementById(valueId);
+                    
+                    noUiSlider.create(slider, {
+                        start: [initialValue],
+                        range: {
+                            'min': [min],
+                            'max': [max]
+                        },
+                        step: step
+                    });
+                    
+                    slider.noUiSlider.on('update', function (values, handle) {
+                        let value = parseFloat(values[handle]);
+                        valueDisplay.innerHTML = value.toFixed(2);
+                        onUpdate(value);
+                        updatePlot();
+                    });
+                }
+                
+                // Setting up amplitude slider
+                setupSlider('ampSlider', 'ampValue', amplitude, 0.1, 2.0, 0.01, function (value) {
+                    amplitude = value;
+                });
+                
+                // Setting up frequency slider
+                setupSlider('freqSlider', 'freqValue', frequency, 0.1, 10.0, 0.1, function (value) {
+                    frequency = value;
+                });
+                
+                // Setting up phase slider
+                setupSlider('phaseSlider', 'phaseValue', phase, 0.0, 2 * Math.PI, 0.01, function (value) {
+                    phase = value;
+                });
+            </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
