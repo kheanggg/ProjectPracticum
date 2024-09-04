@@ -3,138 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Sum and Difference Formulas Visualization</title>
-    <!-- Include Plotly.js -->
+    <title>Improved Sum and Difference Formulas Visualization</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <!-- Include noUiSlider -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
     <style>
-        h1 {
-            text-align: center;
-        }
-        .slider-container {
-            margin: 20px 0;
-        }
-        .slider-container label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .slider-container .slider {
-            width: 80%;
-            margin: 0 auto;
-        }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .slider-container { margin: 20px 0; }
+        .slider { width: 100%; }
+        .formulas { margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
-            <div class="logo">Math Learning</div>
-            <div class="menu-item"><a href="unitcircle2d.html">Unit Circle 2D</a></div>
-            <div class="menu-item"><a href="cosinewave.html">Cosine Wave</a></div>
-            <div class="menu-item"><a href="cosinewave3d.html">Cosine Wave 3D</a></div>
-            <div class="menu-item"><a href="pythagoreanidentity.html">Pythagorean Identity</a></div>
-            <div class="menu-item"><a href="sineandcosinewavelaw.html">Sine and Cosine Law</a></div>
-            <div class="menu-item"><a href="sinewave.html">Sine Wave</a></div>
-            <div class="menu-item"><a href="sumanddifference.html">Sum and Difference</a></div>
-            <div class="menu-item"><a href="tangentwave.html">Tangent Wave</a></div>
+        <h1>Sum and Difference Formulas Visualization</h1>
+        <div id="plot" style="width: 100%; height: 600px;"></div>
+        <div class="slider-container">
+            <label>Angle θ: <span id="angle1Value">0</span> degrees</label>
+            <div id="angle1Slider" class="slider"></div>
         </div>
-        <div class="main-content">
-            <h1>Sum and Difference Formulas Visualization</h1>
-            <div class="content-area">
-                <!-- This is where you can add your main content -->
-                <div id="sumDiffPlot" style="width: 100%; height: 500px;"></div>
-                
-                <!-- Sliders for angles -->
-                <div class="slider-container">
-                    <label>Angle 1 (θ): <span id="angle1Value">0.0</span> radians</label>
-                    <div id="angle1Slider" class="slider"></div>
-                </div>
-                <div class="slider-container">
-                    <label>Angle 2 (φ): <span id="angle2Value">0.0</span> radians</label>
-                    <div id="angle2Slider" class="slider"></div>
-                </div>
-                
-                <script>
-                    // Initial angles
-                    let angle1 = 0.0;
-                    let angle2 = 0.0;
-
-                    // Generate data for the plot
-                    function generateData(angle1, angle2) {
-                        let theta1 = angle1;
-                        let theta2 = angle2;
-                        let sum = theta1 + theta2;
-                        let diff = theta1 - theta2;
-
-                        let x = [0, Math.cos(theta1), Math.cos(sum), Math.cos(diff)];
-                        let y = [0, Math.sin(theta1), Math.sin(sum), Math.sin(diff)];
-                        let labels = ["Origin", "θ", "θ + φ", "θ - φ"];
-                        
-                        return { x: x, y: y, labels: labels };
-                    }
-
-                    // Initial plot
-                    let data = generateData(angle1, angle2);
-                    Plotly.newPlot('sumDiffPlot', [{
-                        x: data.x,
-                        y: data.y,
-                        mode: 'markers+lines+text',
-                        text: data.labels,
-                        textposition: 'top center',
-                        name: 'Angles'
-                    }], {
-                        title: 'Sum and Difference of Angles',
-                        xaxis: { title: 'Cosine', range: [-2, 2] },
-                        yaxis: { title: 'Sine', range: [-2, 2] },
-                        showlegend: false
-                    });
-
-                    // Function to update the plot
-                    function updatePlot() {
-                        let data = generateData(angle1, angle2);
-                        Plotly.restyle('sumDiffPlot', {
-                            x: [data.x],
-                            y: [data.y],
-                            text: [data.labels]
-                        });
-                    }
-                    
-                    // Sliders setup
-                    function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
-                        let slider = document.getElementById(sliderId);
-                        let valueDisplay = document.getElementById(valueId);
-                        
-                        noUiSlider.create(slider, {
-                            start: [initialValue],
-                            range: {
-                                'min': [min],
-                                'max': [max]
-                            },
-                            step: step
-                        });
-                        
-                        slider.noUiSlider.on('update', function (values, handle) {
-                            let value = parseFloat(values[handle]);
-                            valueDisplay.innerHTML = value.toFixed(2);
-                            onUpdate(value);
-                            updatePlot();
-                        });
-                    }
-                    
-                    // Setting up angle1 slider
-                    setupSlider('angle1Slider', 'angle1Value', angle1, 0, 2 * Math.PI, 0.01, function (value) {
-                        angle1 = value;
-                    });
-                    
-                    // Setting up angle2 slider
-                    setupSlider('angle2Slider', 'angle2Value', angle2, 0, 2 * Math.PI, 0.01, function (value) {
-                        angle2 = value;
-                    });
-                </script>
-            </div>
+        <div class="slider-container">
+            <label>Angle φ: <span id="angle2Value">0</span> degrees</label>
+            <div id="angle2Slider" class="slider"></div>
+        </div>
+        <div class="formulas">
+            <h3>Formulas:</h3>
+            <p>cos(θ + φ) = cos θ cos φ - sin θ sin φ</p>
+            <p>cos(θ - φ) = cos θ cos φ + sin θ sin φ</p>
+            <p>sin(θ + φ) = sin θ cos φ + cos θ sin φ</p>
+            <p>sin(θ - φ) = sin θ cos φ - cos θ sin φ</p>
         </div>
     </div>
+
+    <script>
+        let angle1 = 0, angle2 = 0;
+
+        function degreesToRadians(degrees) {
+            return degrees * Math.PI / 180;
+        }
+
+        function generateUnitCircle() {
+            let x = [], y = [];
+            for (let i = 0; i <= 360; i++) {
+                let radians = degreesToRadians(i);
+                x.push(Math.cos(radians));
+                y.push(Math.sin(radians));
+            }
+            return { x, y };
+        }
+
+        function generateData(angle1, angle2) {
+            let theta = degreesToRadians(angle1);
+            let phi = degreesToRadians(angle2);
+            let sum = theta + phi;
+            let diff = theta - phi;
+            let unitCircle = generateUnitCircle();
+
+            return {
+                unitCircle: unitCircle,
+                theta: {x: [0, Math.cos(theta)], y: [0, Math.sin(theta)]},
+                phi: {x: [0, Math.cos(phi)], y: [0, Math.sin(phi)]},
+                sum: {x: [0, Math.cos(sum)], y: [0, Math.sin(sum)]},
+                diff: {x: [0, Math.cos(diff)], y: [0, Math.sin(diff)]},
+            };
+        }
+
+        function updatePlot() {
+            let data = generateData(angle1, angle2);
+            
+            let traces = [
+                {x: data.unitCircle.x, y: data.unitCircle.y, mode: 'lines', name: 'Unit Circle', line: {color: 'lightgray'}},
+                {x: data.theta.x, y: data.theta.y, mode: 'lines+markers', name: 'θ', line: {color: 'blue'}},
+                {x: data.phi.x, y: data.phi.y, mode: 'lines+markers', name: 'φ', line: {color: 'green'}},
+                {x: data.sum.x, y: data.sum.y, mode: 'lines+markers', name: 'θ + φ', line: {color: 'red'}},
+                {x: data.diff.x, y: data.diff.y, mode: 'lines+markers', name: 'θ - φ', line: {color: 'purple'}}
+            ];
+
+            let layout = {
+                title: 'Sum and Difference of Angles',
+                xaxis: {title: 'cos θ', range: [-1.5, 1.5]},
+                yaxis: {title: 'sin θ', range: [-1.5, 1.5]},
+                showlegend: true,
+                legend: {x: 0, y: 1},
+                annotations: [
+                    {x: Math.cos(degreesToRadians(angle1)), y: Math.sin(degreesToRadians(angle1)), text: 'θ', showarrow: true, arrowhead: 2},
+                    {x: Math.cos(degreesToRadians(angle2)), y: Math.sin(degreesToRadians(angle2)), text: 'φ', showarrow: true, arrowhead: 2},
+                    {x: Math.cos(degreesToRadians(angle1 + angle2)), y: Math.sin(degreesToRadians(angle1 + angle2)), text: 'θ + φ', showarrow: true, arrowhead: 2},
+                    {x: Math.cos(degreesToRadians(angle1 - angle2)), y: Math.sin(degreesToRadians(angle1 - angle2)), text: 'θ - φ', showarrow: true, arrowhead: 2}
+                ]
+            };
+
+            Plotly.react('plot', traces, layout);
+        }
+
+        function setupSlider(sliderId, valueId, initialValue, onUpdate) {
+            let slider = document.getElementById(sliderId);
+            let valueDisplay = document.getElementById(valueId);
+            
+            noUiSlider.create(slider, {
+                start: [initialValue],
+                range: {'min': 0, 'max': 360},
+                step: 1
+            });
+            
+            slider.noUiSlider.on('update', function (values, handle) {
+                let value = parseInt(values[handle]);
+                valueDisplay.innerHTML = value;
+                onUpdate(value);
+                updatePlot();
+            });
+        }
+
+        setupSlider('angle1Slider', 'angle1Value', angle1, function (value) {
+            angle1 = value;
+        });
+
+        setupSlider('angle2Slider', 'angle2Value', angle2, function (value) {
+            angle2 = value;
+        });
+
+        updatePlot();
+    </script>
 </body>
 </html>
