@@ -3,130 +3,207 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Improved Sum and Difference Formulas Visualization</title>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+        <title>Document</title>
+        <link href="styles/style.css" rel="stylesheet">
         <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
             rel="stylesheet">
-        <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .slider-container { margin: 20px 0; }
-        .slider { width: 100%; }
-        .formulas { margin-top: 20px; }
-    </style>
     </head>
     <body>
-        <div class="container">
-            <h1>Sum and Difference Formulas Visualization</h1>
-            <div id="plot" style="width: 100%; height: 600px;"></div>
-            <div class="slider-container">
-                <label>Angle θ: <span id="angle1Value">0</span> degrees</label>
-                <div id="angle1Slider" class="slider"></div>
-            </div>
-            <div class="slider-container">
-                <label>Angle φ: <span id="angle2Value">0</span> degrees</label>
-                <div id="angle2Slider" class="slider"></div>
-            </div>
-            <div class="formulas">
-                <h3>Formulas:</h3>
-                <p>cos(θ + φ) = cos θ cos φ - sin θ sin φ</p>
-                <p>cos(θ - φ) = cos θ cos φ + sin θ sin φ</p>
-                <p>sin(θ + φ) = sin θ cos φ + cos θ sin φ</p>
-                <p>sin(θ - φ) = sin θ cos φ - cos θ sin φ</p>
-            </div>
-        </div>
+        <header id="home">
+            <!-- Navigation Bar -->
+            <nav class="navbar navbar-expand-lg" id="navbar-example2">
+                <div class="container-fluid">
+                    <div class="logo-container">
+                        <a href="https://www.rupp.edu.kh/" target="_blank">
+                            <img src="./images/logo1.png" alt="Logo 1">
+                        </a>
+                        <a href="https://www.fe.rupp.edu.kh/" target="_blank">
+                            <img src="./images/fe.png" alt="Logo 2">
+                        </a>
+                    </div>
+                    <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end "
+                        id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#home">HOME</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="#category">CATEGORY</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#courses">COURSES</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about-us">ABOUT
+                                    US</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section>
+                <div class="banner">
+                    <div class="banner-content">
+                        <img src="./images/banner-img.jpg" alt="banner">
+                    </div>
+                    <div class="banner-text">
+                        <p class="title"><b>BEGIN YOUR JOURNEY TODAY!</b></p>
+                        <p class="banner-description">Take the first step
+                            towards mastering new skills and unlocking your
+                            potential. Whether you're looking to enhance your
+                            knowledge or start something entirely new, this is
+                            the perfect opportunity. Our courses are designed to
+                            guide you every step of the way, ensuring you reach
+                            your goals with confidence.</p>
+                        <a class="enroll-button" style="text-decoration: none;"
+                            href="#courses">Enroll Now</a>
+                    </div>
+                </div>
+            </section>
 
-        <script>
-        let angle1 = 0, angle2 = 0;
+            <section class="category mt-0" id="category">
+                <div class="category-title">
+                    <h5>Category<h5>
+                            <h2>Learning for Everyone.</h2>
+                            <h5 class="card-description">Lorem ipsum dolor
+                                consec tut elit adicing sed umod tempor</h5>
+                        </div>
+                        <div class="container">
+                            <div class="card online">
+                                <div class="card-icon">🎓</div>
+                                <div class="card-title">Online Degree
+                                    Programs</div>
+                                <div class="card-description">Lorem ipsum dolor
+                                    consec tut elit adicing sed umod
+                                    tempor</div>
+                                <div class="card-courses">7 Courses</div>
+                            </div>
+                            <div class="card non-degree">
+                                <div class="card-icon">📚</div>
+                                <div class="card-title">Non-Degree
+                                    Programs</div>
+                                <div class="card-description">Lorem ipsum dolor
+                                    consec tut elit adicing sed umod
+                                    tempor</div>
+                                <div class="card-courses">4 Courses</div>
+                            </div>
+                            <div class="card off-campus">
+                                <div class="card-icon">🏫</div>
+                                <div class="card-title">Off-Campus
+                                    Programs</div>
+                                <div class="card-description">Lorem ipsum dolor
+                                    consec tut elit adicing sed umod
+                                    tempor</div>
+                                <div class="card-courses">8 Courses</div>
+                            </div>
+                            <div class="card hybrid">
+                                <div class="card-icon">🔄</div>
+                                <div class="card-title">Hybrid Distance
+                                    Programs</div>
+                                <div class="card-description">Lorem ipsum dolor
+                                    consec tut elit adicing sed umod
+                                    tempor</div>
+                                <div class="card-courses">5 Courses</div>
+                            </div>
+                        </div>
+                    </section>
 
-        function degreesToRadians(degrees) {
-            return degrees * Math.PI / 180;
-        }
+                    <section class="courses" id="courses">
+                        <div class="category-title">
+                            <h5>Courses<h5>
+                                    <h2>Learning for Everyone.</h2>
+                                    <h5 class="card-description">Lorem ipsum
+                                        dolor consec tut elit adicing sed umod
+                                        tempor</h5>
+                                </div>
+                                <div class="container">
 
-        function generateUnitCircle() {
-            let x = [], y = [];
-            for (let i = 0; i <= 360; i++) {
-                let radians = degreesToRadians(i);
-                x.push(Math.cos(radians));
-                y.push(Math.sin(radians));
-            }
-            return { x, y };
-        }
+                                    <div class="card mathematics">
+                                        <a class="card-link mathematics"
+                                            href="./unitcircle2d.html">
+                                            <div class="card-icon">➗</div>
+                                            <div
+                                                class="card-title">Trigonometry</div>
+                                            <div class="card-description">Master
+                                                the fundamentals of trigonometry
+                                                with interactive visualization
+                                                tools, making complex concepts
+                                                easy to grasp and apply.</div>
+                                            <div class="card-instructor">Mr.
+                                                John Smith</div>
+                                        </a>
 
-        function generateData(angle1, angle2) {
-            let theta = degreesToRadians(angle1);
-            let phi = degreesToRadians(angle2);
-            let sum = theta + phi;
-            let diff = theta - phi;
-            let unitCircle = generateUnitCircle();
+                                    </div>
+                                    <div class="card science">
+                                        <div class="card-icon">🔬</div>
+                                        <div class="card-title">Science</div>
+                                        <div class="card-description">Explore
+                                            physics, chemistry, biology, and the
+                                            scientific method.</div>
+                                        <div class="card-instructor">Dr. Jane
+                                            Doe</div>
+                                    </div>
+                                    <div class="card english">
+                                        <div class="card-icon">📖</div>
+                                        <div class="card-title">English
+                                            Literature</div>
+                                        <div class="card-description">Study
+                                            classic literature, improve writing
+                                            skills, and analyze texts.</div>
+                                        <div class="card-instructor">Ms. Emily
+                                            Brown</div>
+                                    </div>
+                                    <div class="card history">
+                                        <div class="card-icon">📜</div>
+                                        <div class="card-title">History</div>
+                                        <div class="card-description">Learn
+                                            about world history, major events,
+                                            and historical analysis.</div>
+                                        <div class="card-instructor">Mr. Robert
+                                            Wilson</div>
+                                    </div>
+                                </div>
+                            </section>
 
-            return {
-                unitCircle: unitCircle,
-                theta: {x: [0, Math.cos(theta)], y: [0, Math.sin(theta)]},
-                phi: {x: [0, Math.cos(phi)], y: [0, Math.sin(phi)]},
-                sum: {x: [0, Math.cos(sum)], y: [0, Math.sin(sum)]},
-                diff: {x: [0, Math.cos(diff)], y: [0, Math.sin(diff)]},
-            };
-        }
+                            <div class="box"
+                                style="width:100%; height:50vh; background-color: #0052a3; margin-top: 15vh;"
+                                id="about-us">
 
-        function updatePlot() {
-            let data = generateData(angle1, angle2);
-            
-            let traces = [
-                {x: data.unitCircle.x, y: data.unitCircle.y, mode: 'lines', name: 'Unit Circle', line: {color: 'lightgray'}},
-                {x: data.theta.x, y: data.theta.y, mode: 'lines+markers', name: 'θ', line: {color: 'blue'}},
-                {x: data.phi.x, y: data.phi.y, mode: 'lines+markers', name: 'φ', line: {color: 'green'}},
-                {x: data.sum.x, y: data.sum.y, mode: 'lines+markers', name: 'θ + φ', line: {color: 'red'}},
-                {x: data.diff.x, y: data.diff.y, mode: 'lines+markers', name: 'θ - φ', line: {color: 'purple'}}
-            ];
-
-            let layout = {
-                title: 'Sum and Difference of Angles',
-                xaxis: {title: 'cos θ', range: [-1.5, 1.5]},
-                yaxis: {title: 'sin θ', range: [-1.5, 1.5]},
-                showlegend: true,
-                legend: {x: 0, y: 1},
-                annotations: [
-                    {x: Math.cos(degreesToRadians(angle1)), y: Math.sin(degreesToRadians(angle1)), text: 'θ', showarrow: true, arrowhead: 2},
-                    {x: Math.cos(degreesToRadians(angle2)), y: Math.sin(degreesToRadians(angle2)), text: 'φ', showarrow: true, arrowhead: 2},
-                    {x: Math.cos(degreesToRadians(angle1 + angle2)), y: Math.sin(degreesToRadians(angle1 + angle2)), text: 'θ + φ', showarrow: true, arrowhead: 2},
-                    {x: Math.cos(degreesToRadians(angle1 - angle2)), y: Math.sin(degreesToRadians(angle1 - angle2)), text: 'θ - φ', showarrow: true, arrowhead: 2}
-                ]
-            };
-
-            Plotly.react('plot', traces, layout);
-        }
-
-        function setupSlider(sliderId, valueId, initialValue, onUpdate) {
-            let slider = document.getElementById(sliderId);
-            let valueDisplay = document.getElementById(valueId);
-            
-            noUiSlider.create(slider, {
-                start: [initialValue],
-                range: {'min': 0, 'max': 360},
-                step: 1
+                            </div>
+                            <button id="scrollToTopBtn"
+                                title="Go to top">↑</button>
+                        </main>
+                        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const navbar = document.querySelector('.navbar');
+            const scrollThreshold = 10; // Adjust this value for sensitivity
+    
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+                if (scrollTop < lastScrollTop - scrollThreshold) {
+                    // Scrolling up, show navbar
+                    navbar.classList.remove('hidden');
+                } else if (scrollTop > lastScrollTop + scrollThreshold) {
+                    // Scrolling down, hide navbar
+                    navbar.classList.add('hidden');
+                }
+    
+                lastScrollTop = scrollTop;
             });
-            
-            slider.noUiSlider.on('update', function (values, handle) {
-                let value = parseInt(values[handle]);
-                valueDisplay.innerHTML = value;
-                onUpdate(value);
-                updatePlot();
-            });
-        }
-
-        setupSlider('angle1Slider', 'angle1Value', angle1, function (value) {
-            angle1 = value;
         });
-
-        setupSlider('angle2Slider', 'angle2Value', angle2, function (value) {
-            angle2 = value;
-        });
-
-        updatePlot();
     </script>
-    </body>
-</html>
+
+                    </body>
+                </html>
