@@ -17,6 +17,9 @@
             justify-content: center;
             align-items: center;
         }
+        #unitCircleCanvas {
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
@@ -35,101 +38,91 @@
         <div class="main-content center">
             <h1>Unit Circle 2D</h1>
             <div class="content-area">
-                <!-- This is where you can add your main content -->
-                    <canvas id="unitCircleCanvas" width="500" height="500" style="border:1px solid black;"></canvas>
-                    
-                    <script>
-                        // Get canvas element and context
-                    let canvas = document.getElementById('unitCircleCanvas');
-                    let ctx = canvas.getContext('2d');
-                    
-                    // Function to update plot when mouse moves
-                    canvas.addEventListener('mousemove', update);
-
-                    function update(event) {
-                        // Get current mouse position relative to canvas
-                        let rect = canvas.getBoundingClientRect();
-                        let x = event.clientX - rect.left;
-                        let y = event.clientY - rect.top;
-                        
-                        // Calculate angle from mouse position
-                        let angle = Math.atan2(y - canvas.height / 2, x - canvas.width / 2);
-                        
-                        // Update the plot with the new angle
-                        updatePlot(angle);
-                    }
-
-                    // Function to update plot
-                    function updatePlot(angle) {
-                        // Clear canvas
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        
-                        // Plot unit circle
-                        ctx.beginPath();
-                        ctx.arc(canvas.width / 2, canvas.height / 2, 150, 0, Math.PI * 2);
-                        ctx.strokeStyle = 'blue';
-                        ctx.stroke();
-                        
-                        // Plot x and y axes
-                        ctx.beginPath();
-                        ctx.moveTo(0, canvas.height / 2);
-                        ctx.lineTo(canvas.width, canvas.height / 2);
-                        ctx.moveTo(canvas.width / 2, 0);
-                        ctx.lineTo(canvas.width / 2, canvas.height);
-                        ctx.strokeStyle = 'black';
-                        ctx.stroke();
-                        
-                        // Calculate cosine and sine values
-                        let cosVal = Math.cos(angle);
-                        let sinVal = Math.sin(angle);
-                        
-                        // Plot cosine and sine triangles
-                        ctx.fillStyle = 'yellow';
-                        ctx.beginPath();
-                        ctx.moveTo(canvas.width / 2, canvas.height / 2);
-                        ctx.lineTo(canvas.width / 2 + 150 * cosVal, canvas.height / 2);
-                        ctx.lineTo(canvas.width / 2 + 150 * cosVal, canvas.height / 2 + 150 * sinVal);
-                        ctx.fill();
-                        
-                        ctx.fillStyle = 'green';
-                        ctx.beginPath();
-                        ctx.moveTo(canvas.width / 2, canvas.height / 2);
-                        ctx.lineTo(canvas.width / 2, canvas.height / 2 + 150 * sinVal);
-                        ctx.lineTo(canvas.width / 2 + 150 * cosVal, canvas.height / 2 + 150 * sinVal);
-                        ctx.fill();
-                        
-                        // Plot tangent line
-                        let tanVal = Math.tan(angle);
-                        ctx.strokeStyle = 'orange';
-                        ctx.setLineDash([5, 5]);
-                        ctx.beginPath();
-                        ctx.moveTo(canvas.width / 2 - 150, canvas.height / 2 + 150 * tanVal);
-                        ctx.lineTo(canvas.width / 2 + 150, canvas.height / 2 - 150 * tanVal);
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-                        
-                        // Display angle
-                        let angleDeg = angle * 180 / Math.PI;
-                        ctx.fillStyle = 'purple';
-                        ctx.font = '14px Arial';
-                        ctx.fillText(`Angle: ${angleDeg.toFixed(2)}°`, 10, 20);
-                        
-                        // Display sine, cosine, tangent values
-                        ctx.fillStyle = 'red';
-                        ctx.fillText(`cos: ${cosVal.toFixed(2)}`, canvas.width - 100, 20);
-                        
-                        ctx.fillStyle = 'green';
-                        ctx.fillText(`sin: ${sinVal.toFixed(2)}`, canvas.width - 100, 40);
-                        
-                        ctx.fillStyle = 'orange';
-                        ctx.fillText(`tan: ${tanVal.toFixed(2)}`, canvas.width - 100, 60);
-                    }
-                    
-                    // Initial plot
-                    updatePlot(Math.PI / 6);
-                </script>
+                <canvas id="unitCircleCanvas" width="500" height="500"></canvas>
             </div>
         </div>
     </div>
+    <script>
+        const canvas = document.getElementById('unitCircleCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 150;
+
+        function drawUnitCircle(angle) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw unit circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.strokeStyle = 'blue';
+            ctx.stroke();
+            
+            // Draw axes
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(canvas.width, centerY);
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, canvas.height);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            
+            const cosVal = Math.cos(angle);
+            const sinVal = Math.sin(angle);
+            const tanVal = Math.tan(angle);
+            
+            // Draw cosine triangle
+            ctx.fillStyle = 'rgba(255, 255, 0, 0.5)';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius * cosVal, centerY);
+            ctx.lineTo(centerX + radius * cosVal, centerY - radius * sinVal);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Draw sine triangle
+            ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX, centerY - radius * sinVal);
+            ctx.lineTo(centerX + radius * cosVal, centerY - radius * sinVal);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Draw tangent line
+            ctx.strokeStyle = 'orange';
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(centerX - radius, centerY + radius * tanVal);
+            ctx.lineTo(centerX + radius, centerY - radius * tanVal);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Display angle and values
+            ctx.font = '14px Arial';
+            ctx.fillStyle = 'purple';
+            ctx.fillText(`Angle: ${(angle * 180 / Math.PI).toFixed(2)}°`, 10, 20);
+            
+            ctx.fillStyle = 'red';
+            ctx.fillText(`cos: ${cosVal.toFixed(2)}`, canvas.width - 100, 20);
+            
+            ctx.fillStyle = 'green';
+            ctx.fillText(`sin: ${sinVal.toFixed(2)}`, canvas.width - 100, 40);
+            
+            ctx.fillStyle = 'orange';
+            ctx.fillText(`tan: ${tanVal.toFixed(2)}`, canvas.width - 100, 60);
+        }
+
+        function handleMouseMove(event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left - centerX;
+            const y = centerY - (event.clientY - rect.top);
+            const angle = Math.atan2(y, x);
+            drawUnitCircle(angle);
+        }
+
+        canvas.addEventListener('mousemove', handleMouseMove);
+        drawUnitCircle(Math.PI / 6); // Initial plot
+    </script>
 </body>
 </html>
