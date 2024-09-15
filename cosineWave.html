@@ -1,128 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosine Wave</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <!-- Include noUiSlider -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="logo">Math Learning</div>
-            <div class="menu-item"><a href="unitcircle2d.html">Unit Circle 2D</a></div>
-            <div class="menu-item"><a href="cosinewave.html">Cosine Wave</a></div>
-            <div class="menu-item"><a href="cosinewave3d.html">Cosine Wave 3D</a></div>
-            <div class="menu-item"><a href="pythagoreanidentity.html">Pythagorean Identity</a></div>
-            <div class="menu-item"><a href="sineandcosinewavelaw.html">Sine and Cosine Law</a></div>
-            <div class="menu-item"><a href="sinewave.html">Sine Wave</a></div>
-            <div class="menu-item"><a href="sumanddifference.html">Sum and Difference</a></div>
-            <div class="menu-item"><a href="tangentwave.html">Tangent Wave</a></div>
-        </div>
-        <div class="main-content">
-            <h1>Cosine Wave 2D</h1>
-            <div class="content-area">
-                <!-- This is where you can add your main content -->
-            <div id="cosineWave" style="width: 100%; height: 500px;"></div>
-            
-            <!-- Sliders for amplitude, frequency, and phase -->
-            <div>
-                <label>Amplitude: <span id="ampValue">1.0</span></label>
-                <div id="ampSlider" style="width: 80%;"></div>
-            </div>
-            <div>
-                <label>Frequency: <span id="freqValue">1.0</span></label>
-                <div id="freqSlider" style="width: 80%;"></div>
-            </div>
-            <div>
-                <label>Phase: <span id="phaseValue">0.0</span></label>
-                <div id="phaseSlider" style="width: 80%;"></div>
-            </div>
-            
-            <script>
-                // Initial parameters
-                let amplitude = 1.0;
-                let frequency = 1.0;
-                let phase = 0.0;
-                
-                // Generate initial cosine wave data with high resolution
-                function generateData(amplitude, frequency, phase) {
-                    let x = [];
-                    let y = [];
-                    for (let i = 0; i <= 1000; i++) {
-                        let t = i / 1000.0 * 2 * Math.PI;  // Higher resolution
-                        x.push(t);
-                        y.push(amplitude * Math.cos(frequency * t + phase)); // Using cosine function
-                    }
-                    return { x: x, y: y };
-                }
-                
-                // Initial plot
-                let data = generateData(amplitude, frequency, phase);
-                Plotly.newPlot('cosineWave', [{
-                    x: data.x,
-                    y: data.y,
-                    mode: 'lines',
-                    name: 'cosine wave'
-                }], {
-                    title: 'Cosine Wave',
-                    xaxis: { title: 'x', range: [0, 2 * Math.PI] },
-                    yaxis: { title: 'y = A cos(fx + φ)', range: [-2, 2] },
-                    grid: { rows: 1, columns: 1, pattern: 'independent' }
-                });
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cosine Wave</title>
 
-                // Function to update the plot
-                function updatePlot() {
-                    let data = generateData(amplitude, frequency, phase);
-                    Plotly.restyle('cosineWave', {
-                        x: [data.x],
-                        y: [data.y]
-                    });
-                }
-                
-                // Sliders setup
-                function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
-                    let slider = document.getElementById(sliderId);
-                    let valueDisplay = document.getElementById(valueId);
-                    
-                    noUiSlider.create(slider, {
-                        start: [initialValue],
-                        range: {
-                            'min': [min],
-                            'max': [max]
-                        },
-                        step: step
-                    });
-                    
-                    slider.noUiSlider.on('update', function (values, handle) {
-                        let value = parseFloat(values[handle]);
-                        valueDisplay.innerHTML = value.toFixed(2);
-                        onUpdate(value);
-                        updatePlot();
-                    });
-                }
-                
-                // Setting up amplitude slider
-                setupSlider('ampSlider', 'ampValue', amplitude, 0.1, 2.0, 0.01, function (value) {
-                    amplitude = value;
-                });
-                
-                // Setting up frequency slider
-                setupSlider('freqSlider', 'freqValue', frequency, 0.1, 10.0, 0.1, function (value) {
-                    frequency = value;
-                });
-                
-                // Setting up phase slider
-                setupSlider('phaseSlider', 'phaseValue', phase, 0.0, 2 * Math.PI, 0.01, function (value) {
-                    phase = value;
-                });
-            </script>
+        <link rel="stylesheet" href="style.css">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+        <!-- External CSS for Plotly and noUiSlider -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
+
+        <!-- Internal Styling -->
+        <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            height: 100%;
+        }
+    
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+    
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(to bottom, #3498db, #87CEEB);
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+    
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+    
+        .menu-item {
+            padding: 10px 0;
+            cursor: pointer;
+        }
+    
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #f5f5f5;
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+    
+        .content-area {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+    
+        /* Sliders Section */
+        .slider-container {
+            margin-bottom: 20px;
+        }
+    
+        .slider-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+    
+        .slider-value {
+            margin-left: 10px;
+            font-weight: normal;
+        }
+    
+        /* Course Explanation Section */
+        .course-section {
+            margin-top: 40px;
+        }
+    
+        .course-section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+    
+        .course-section p, .course-section ul {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+    
+        ul {
+            padding-left: 20px;
+        }
+    
+        ul li {
+            margin-bottom: 10px;
+        }
+    
+        /* Link styles */
+        .sidebar a {
+            text-decoration: none;
+            color: white;
+        }
+    
+        .sidebar a:hover {
+            color: #f0f0f0;
+            font-weight: bold;
+        }
+    
+        .sidebar a:visited {
+            color: white;
+        }
+        </style>
+
+        <!-- External Scripts -->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="sidebar">
+                <div class="logo">Math Learning</div>
+                <div class="menu-item"><a href="unitcircle2d.html">Unit Circle 2D</a></div>
+                <div class="menu-item"><a href="cosinewave.html">Cosine Wave</a></div>
+                <div class="menu-item"><a href="cosinewave3d.html">Cosine Wave 3D</a></div>
+                <div class="menu-item"><a href="pythagoreanidentity.html">Pythagorean Identity</a></div>
+                <div class="menu-item"><a href="sineandcosinewavelaw.html">Sine and Cosine Law</a></div>
+                <div class="menu-item"><a href="sinewave.html">Sine Wave</a></div>
+                <div class="menu-item"><a href="sumanddifference.html">Sum and Difference</a></div>
+                <div class="menu-item"><a href="tangentwave.html">Tangent Wave</a></div>
+            </div>
+            <div class="main-content">
+                <h1>Cosine Wave 2D</h1>
+                <div class="content-area">
+                    <!-- Cosine Wave Plot -->
+                    <div id="cosineWave" style="width: 100%; height: 500px;"></div>
+
+                    <!-- Sliders for amplitude, frequency, and phase -->
+                    <div class="slider-container">
+                        <label class="slider-label">Amplitude: <span class="slider-value" id="ampValue">1.0</span></label>
+                        <div id="ampSlider" style="width: 100%;"></div>
+                    </div>
+                    <div class="slider-container">
+                        <label class="slider-label">Frequency: <span class="slider-value" id="freqValue">1.0</span></label>
+                        <div id="freqSlider" style="width: 100%;"></div>
+                    </div>
+                    <div class="slider-container">
+                        <label class="slider-label">Phase: <span class="slider-value" id="phaseValue">0.0</span></label>
+                        <div id="phaseSlider" style="width: 100%;"></div>
+                    </div>
+
+                    <!-- Course Explanation Section -->
+                    <div class="course-section">
+                        <h2>Understanding the Cosine Wave</h2>
+                        <p>
+                            The <strong>cosine wave</strong> is one of the most fundamental concepts in trigonometry. The equation of a cosine wave is typically written as:
+                        </p>
+                        <p>
+                            \[
+                            y = A \cos(fx + \phi)
+                            \]
+                        </p>
+                        <p>
+                            Where:
+                            <ul>
+                                <li><strong>A</strong> is the <em>amplitude</em> of the wave, which determines how tall or short the wave is.</li>
+                                <li><strong>f</strong> is the <em>frequency</em>, which controls how many oscillations occur in a given interval.</li>
+                                <li><strong>\(\phi\)</strong> is the <em>phase shift</em>, which moves the wave left or right.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            As you adjust the sliders above, you'll notice how the wave changes. Here's what each parameter does:
+                        </p>
+                        <ul>
+                            <li><strong>Amplitude</strong>: Changes the height of the wave. A higher amplitude makes the peaks taller and the valleys deeper.</li>
+                            <li><strong>Frequency</strong>: Controls how "fast" the wave oscillates. A higher frequency compresses the wave, while a lower frequency stretches it out.</li>
+                            <li><strong>Phase</strong>: Shifts the entire wave horizontally, without changing its shape.</li>
+                        </ul>
+                        <p>
+                            The cosine function is periodic, meaning it repeats itself over regular intervals. The length of one complete cycle is known as the <strong>wavelength</strong>.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+
+        <!-- JavaScript for Plotly and Sliders -->
+        <script>
+        let amplitude = 1.0;
+        let frequency = 1.0;
+        let phase = 0.0;
+
+        function generateData(amplitude, frequency, phase) {
+            let x = [], y = [];
+            for (let i = 0; i <= 1000; i++) {
+                let t = i / 1000.0 * 2 * Math.PI;
+                x.push(t);
+                y.push(amplitude * Math.cos(frequency * t + phase));
+            }
+            return { x, y };
+        }
+
+        let data = generateData(amplitude, frequency, phase);
+        Plotly.newPlot('cosineWave', [{
+            x: data.x,
+            y: data.y,
+            mode: 'lines',
+            name: 'cosine wave'
+        }], {
+            title: 'Cosine Wave',
+            xaxis: { title: 'x', range: [0, 2 * Math.PI] },
+            yaxis: { title: 'y = A cos(fx + φ)', range: [-2, 2] },
+        });
+
+        function updatePlot() {
+            let data = generateData(amplitude, frequency, phase);
+            Plotly.restyle('cosineWave', {
+                x: [data.x],
+                y: [data.y]
+            });
+        }
+
+        function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
+            let slider = document.getElementById(sliderId);
+            let valueDisplay = document.getElementById(valueId);
+            
+            noUiSlider.create(slider, {
+                start: [initialValue],
+                range: { min: [min], max: [max] },
+                step: step
+            });
+            
+            slider.noUiSlider.on('update', function (values, handle) {
+                let value = parseFloat(values[handle]);
+                valueDisplay.innerHTML = value.toFixed(2);
+                onUpdate(value);
+                updatePlot();
+            });
+        }
+
+        setupSlider('ampSlider', 'ampValue', amplitude, 0.1, 2.0, 0.01, function (value) { amplitude = value; });
+        setupSlider('freqSlider', 'freqValue', frequency, 0.1, 10.0, 0.1, function (value) { frequency = value; });
+        setupSlider('phaseSlider', 'phaseValue', phase, 0.0, 2 * Math.PI, 0.01, function (value) { phase = value; });
+        </script>
+    </body>
 </html>
