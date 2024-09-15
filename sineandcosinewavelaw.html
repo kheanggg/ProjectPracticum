@@ -13,20 +13,26 @@
             text-align: center;
         }
         #trianglePlot {
-            width: 600px;
+            width: 100%;
             height: 400px;
+            max-width: 600px;
             margin: 0 auto;
         }
         .slider-container {
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
         }
         .slider-container label {
-            display: block;
-            margin-bottom: 5px;
+            width: 100px;
+            margin-right: 10px;
         }
         .slider {
-            width: 80%;
-            margin: 0 auto;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .slider-value {
+            width: 50px;
         }
     </style>
 </head>
@@ -46,172 +52,176 @@
         <div class="main-content">
             <h1>Sine and Cosine Wave Law</h1>
             <div class="content-area">
-                <!-- This is where you can add your main content -->
-                <!-- Plotly Plot for Triangle Visualization -->
                 <div id="trianglePlot"></div>
                 
-                <!-- Sliders for sides and angles -->
                 <div class="slider-container">
-                    <label for="sideASlider">Side A: <span id="sideAValue">4.0</span></label>
+                    <label for="sideASlider">Side a:</label>
                     <div id="sideASlider" class="slider"></div>
+                    <span id="sideAValue" class="slider-value">4.0</span>
                 </div>
                 <div class="slider-container">
-                    <label for="sideBSlider">Side B: <span id="sideBValue">3.0</span></label>
+                    <label for="sideBSlider">Side b:</label>
                     <div id="sideBSlider" class="slider"></div>
+                    <span id="sideBValue" class="slider-value">3.0</span>
                 </div>
                 <div class="slider-container">
-                    <label for="sideCSlider">Side C: <span id="sideCValue">4.0</span></label>
+                    <label for="sideCSlider">Side c:</label>
                     <div id="sideCSlider" class="slider"></div>
+                    <span id="sideCValue" class="slider-value">4.0</span>
                 </div>
                 <div class="slider-container">
-                    <label for="angleASlider">Angle A: <span id="angleAValue">60.0</span>°</label>
+                    <label for="angleASlider">Angle A:</label>
                     <div id="angleASlider" class="slider"></div>
+                    <span id="angleAValue" class="slider-value">60.0°</span>
                 </div>
                 <div class="slider-container">
-                    <label for="angleBSlider">Angle B: <span id="angleBValue">60.0</span>°</label>
+                    <label for="angleBSlider">Angle B:</label>
                     <div id="angleBSlider" class="slider"></div>
+                    <span id="angleBValue" class="slider-value">60.0°</span>
                 </div>
                 <div class="slider-container">
-                    <label for="angleCSlider">Angle C: <span id="angleCValue">60.0</span>°</label>
+                    <label for="angleCSlider">Angle C:</label>
                     <div id="angleCSlider" class="slider"></div>
+                    <span id="angleCValue" class="slider-value">60.0°</span>
                 </div>
-
-                <script>
-                    // Initial triangle dimensions and angles
-                    let sideA = 4.0;
-                    let sideB = 3.0;
-                    let sideC = 4.0;
-                    let angleA = 60.0;
-                    let angleB = 60.0;
-                    let angleC = 60.0;
-
-                    // Function to update triangle plot
-                    function updateTrianglePlot() {
-                        // Calculate coordinates of triangle vertices
-                        let xA = 0;
-                        let yA = 0;
-                        let xB = sideA;
-                        let yB = 0;
-
-                        // Using Law of Cosines to find coordinates of C
-                        let angleCRad = degToRad(angleC);
-                        let xC = (sideB * Math.cos(angleCRad)) + xA;
-                        let yC = (sideB * Math.sin(angleCRad)) + yA;
-
-                        // Update Plotly trace with new coordinates
-                        let trace = {
-                            type: 'scatter',
-                            x: [xA, xB, xC, xA],
-                            y: [yA, yB, yC, yA],
-                            mode: 'lines+markers',
-                            marker: { size: 10 },
-                            line: { color: 'blue' }
-                        };
-
-                        let layout = {
-                            title: 'Dynamic Triangle',
-                            xaxis: { range: [-1, Math.max(sideA, sideB, sideC) + 1], zeroline: false },
-                            yaxis: { range: [-1, sideC + 1], zeroline: false }
-                        };
-
-                        let data = [trace];
-
-                        // Plot the triangle using Plotly
-                        Plotly.newPlot('trianglePlot', data, layout);
-                    }
-
-                    // Function to convert degrees to radians
-                    function degToRad(degrees) {
-                        return degrees * Math.PI / 180;
-                    }
-
-                    // Function to convert radians to degrees
-                    function radToDeg(radians) {
-                        return radians * 180 / Math.PI;
-                    }
-
-                    // Setup sliders using noUiSlider
-                    function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
-                        let slider = document.getElementById(sliderId);
-                        let valueDisplay = document.getElementById(valueId);
-                        
-                        noUiSlider.create(slider, {
-                            start: initialValue,
-                            range: {
-                                'min': min,
-                                'max': max
-                            },
-                            step: step
-                        });
-
-                        slider.noUiSlider.on('update', function (values, handle) {
-                            let value = parseFloat(values[handle]);
-                            valueDisplay.innerHTML = value.toFixed(1);
-                            onUpdate(value);
-                            updateTrianglePlot(); // Update plot when slider value changes
-                        });
-                    }
-
-                    // Initialize sliders
-                    setupSlider('sideASlider', 'sideAValue', sideA.toString(), 1, 10, 0.1, function (value) {
-                        sideA = parseFloat(value);
-                        updateAnglesFromSides();
-                    });
-
-                    setupSlider('sideBSlider', 'sideBValue', sideB.toString(), 1, 10, 0.1, function (value) {
-                        sideB = parseFloat(value);
-                        updateAnglesFromSides();
-                    });
-
-                    setupSlider('sideCSlider', 'sideCValue', sideC.toString(), 1, 10, 0.1, function (value) {
-                        sideC = parseFloat(value);
-                        updateAnglesFromSides();
-                    });
-
-                    setupSlider('angleASlider', 'angleAValue', angleA.toString(), 1, 179, 1, function (value) {
-                        angleA = parseFloat(value);
-                        updateSidesFromAngles();
-                    });
-
-                    setupSlider('angleBSlider', 'angleBValue', angleB.toString(), 1, 179, 1, function (value) {
-                        angleB = parseFloat(value);
-                        updateSidesFromAngles();
-                    });
-
-                    setupSlider('angleCSlider', 'angleCValue', angleC.toString(), 1, 179, 1, function (value) {
-                        angleC = parseFloat(value);
-                        updateSidesFromAngles();
-                    });
-
-                    // Update sides based on angles using Law of Cosines
-                    function updateSidesFromAngles() {
-                        sideA = (sideC * Math.sin(degToRad(angleA))) / Math.sin(degToRad(angleC));
-                        sideB = (sideC * Math.sin(degToRad(angleB))) / Math.sin(degToRad(angleC));
-
-                        document.getElementById('sideAValue').textContent = sideA.toFixed(1);
-                        document.getElementById('sideBValue').textContent = sideB.toFixed(1);
-
-                        updateTrianglePlot();
-                    }
-
-                    // Update angles based on sides using Law of Cosines
-                    function updateAnglesFromSides() {
-                        angleA = radToDeg(Math.acos((sideB * sideB + sideC * sideC - sideA * sideA) / (2 * sideB * sideC)));
-                        angleB = radToDeg(Math.acos((sideA * sideA + sideC * sideC - sideB * sideB) / (2 * sideA * sideC)));
-                        angleC = radToDeg(Math.acos((sideA * sideA + sideB * sideB - sideC * sideC) / (2 * sideA * sideB)));
-
-                        document.getElementById('angleAValue').textContent = angleA.toFixed(1);
-                        document.getElementById('angleBValue').textContent = angleB.toFixed(1);
-                        document.getElementById('angleCValue').textContent = angleC.toFixed(1);
-
-                        updateTrianglePlot();
-                    }
-
-                    // Initialize plot
-                    updateTrianglePlot();
-                </script>
             </div>
         </div>
     </div>
+    <script>
+        const triangle = {
+            sideA: 4.0,
+            sideB: 3.0,
+            sideC: 4.0,
+            angleA: 60.0,
+            angleB: 60.0,
+            angleC: 60.0
+        };
+
+        function updateTrianglePlot() {
+            const xA = 0, yA = 0;
+            const xB = triangle.sideA, yB = 0;
+            const angleCRad = degToRad(triangle.angleC);
+            const xC = triangle.sideB * Math.cos(angleCRad);
+            const yC = triangle.sideB * Math.sin(angleCRad);
+
+            const midAB = [(xA + xB) / 2, (yA + yB) / 2];
+            const midBC = [(xB + xC) / 2, (yB + yC) / 2];
+            const midCA = [(xC + xA) / 2, (yC + yA) / 2];
+
+            const trace = {
+                type: 'scatter',
+                x: [xA, xB, xC, xA],
+                y: [yA, yB, yC, yA],
+                mode: 'lines+markers+text',
+                marker: { size: 10 },
+                line: { color: 'blue' },
+                text: ['C', 'A', 'B'],
+                textposition: 'top center'
+            };
+
+            const labels = {
+                type: 'scatter',
+                x: [midAB[0], midBC[0], midCA[0]],
+                y: [midAB[1], midBC[1], midCA[1]],
+                mode: 'text',
+                text: ['c', 'a', 'b'],
+                textposition: 'middle center'
+            };
+
+            const layout = {
+                title: 'Dynamic Triangle',
+                xaxis: { range: [-1, Math.max(triangle.sideA, triangle.sideB, triangle.sideC) + 1], zeroline: false },
+                yaxis: { range: [-1, Math.max(triangle.sideA, triangle.sideB, triangle.sideC) + 1], zeroline: false },
+                showlegend: false,
+                annotations: [
+                    {x: xA, y: yA, text: 'C', showarrow: false, yshift: 15},
+                    {x: xB, y: yB, text: 'A', showarrow: false, yshift: 15},
+                    {x: xC, y: yC, text: 'B', showarrow: false, yshift: 15},
+                    {x: (xA + xB) / 2, y: (yA + yB) / 2, text: 'c', showarrow: false},
+                    {x: (xB + xC) / 2, y: (yB + yC) / 2, text: 'a', showarrow: false},
+                    {x: (xC + xA) / 2, y: (yC + yA) / 2, text: 'b', showarrow: false}
+                ]
+            };
+
+            Plotly.newPlot('trianglePlot', [trace, labels], layout);
+        }
+
+        const degToRad = degrees => degrees * Math.PI / 180;
+        const radToDeg = radians => radians * 180 / Math.PI;
+
+        function setupSlider(sliderId, valueId, initialValue, min, max, step, onUpdate) {
+            const slider = document.getElementById(sliderId);
+            const valueDisplay = document.getElementById(valueId);
+            
+            noUiSlider.create(slider, {
+                start: initialValue,
+                range: { min, max },
+                step
+            });
+
+            slider.noUiSlider.on('update', (values, handle) => {
+                const value = parseFloat(values[handle]);
+                valueDisplay.textContent = value.toFixed(1) + (sliderId.includes('angle') ? '°' : '');
+                onUpdate(value);
+                updateTrianglePlot();
+            });
+        }
+
+        setupSlider('sideASlider', 'sideAValue', triangle.sideA, 1, 10, 0.1, value => {
+            triangle.sideA = value;
+            updateAnglesFromSides();
+        });
+
+        setupSlider('sideBSlider', 'sideBValue', triangle.sideB, 1, 10, 0.1, value => {
+            triangle.sideB = value;
+            updateAnglesFromSides();
+        });
+
+        setupSlider('sideCSlider', 'sideCValue', triangle.sideC, 1, 10, 0.1, value => {
+            triangle.sideC = value;
+            updateAnglesFromSides();
+        });
+
+        setupSlider('angleASlider', 'angleAValue', triangle.angleA, 1, 179, 1, value => {
+            triangle.angleA = value;
+            updateSidesFromAngles();
+        });
+
+        setupSlider('angleBSlider', 'angleBValue', triangle.angleB, 1, 179, 1, value => {
+            triangle.angleB = value;
+            updateSidesFromAngles();
+        });
+
+        setupSlider('angleCSlider', 'angleCValue', triangle.angleC, 1, 179, 1, value => {
+            triangle.angleC = value;
+            updateSidesFromAngles();
+        });
+
+        function updateSidesFromAngles() {
+            const sinC = Math.sin(degToRad(triangle.angleC));
+            triangle.sideA = (triangle.sideC * Math.sin(degToRad(triangle.angleA))) / sinC;
+            triangle.sideB = (triangle.sideC * Math.sin(degToRad(triangle.angleB))) / sinC;
+
+            document.getElementById('sideAValue').textContent = triangle.sideA.toFixed(1);
+            document.getElementById('sideBValue').textContent = triangle.sideB.toFixed(1);
+
+            updateTrianglePlot();
+        }
+
+        function updateAnglesFromSides() {
+            const { sideA, sideB, sideC } = triangle;
+            triangle.angleA = radToDeg(Math.acos((sideB * sideB + sideC * sideC - sideA * sideA) / (2 * sideB * sideC)));
+            triangle.angleB = radToDeg(Math.acos((sideA * sideA + sideC * sideC - sideB * sideB) / (2 * sideA * sideC)));
+            triangle.angleC = radToDeg(Math.acos((sideA * sideA + sideB * sideB - sideC * sideC) / (2 * sideA * sideB)));
+
+            document.getElementById('angleAValue').textContent = triangle.angleA.toFixed(1) + '°';
+            document.getElementById('angleBValue').textContent = triangle.angleB.toFixed(1) + '°';
+            document.getElementById('angleCValue').textContent = triangle.angleC.toFixed(1) + '°';
+
+            updateTrianglePlot();
+        }
+
+        updateTrianglePlot();
+    </script>
 </body>
 </html>
